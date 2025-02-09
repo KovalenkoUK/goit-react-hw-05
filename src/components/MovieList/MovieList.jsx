@@ -14,7 +14,7 @@ function MovieList({ movies, isLoading }) {
                     {movies.map(({ id, title }) => (
                         <li key={id}>
                             <Link state={{
-                                prevLocation: location.pathname + location.search,
+                                prevLocation: location,
                             }} to={
                                 `/movies/${id}`
                             } >{title}</Link>

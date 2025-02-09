@@ -5,7 +5,7 @@ function BackButton() {
     const location = useLocation();
     const navigate = useNavigate();
     return (
-        <button onClick={() => navigate(location.state ?.prevLocation || "/")}>
+        <button onClick={() => navigate(location.state?.prevLocation || "/")}>
             Go Back
     </button>
     );
