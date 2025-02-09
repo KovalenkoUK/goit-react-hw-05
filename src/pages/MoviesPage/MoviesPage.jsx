@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router-dom';
 
 function MoviesPage() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [query, setQuery] = useState(searchParams.get("q") || "");
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -17,6 +16,7 @@ function MoviesPage() {
     };
 
     useEffect(() => {
+        const query = searchParams.get("q");
         if (!query) return;
 
         setIsLoading(true);
@@ -26,19 +26,19 @@ function MoviesPage() {
             .then((data) => setMovies(data))
             .catch((error) => setError(error.message))
             .finally(() => setIsLoading(false));
-    }, [query, searchParams]);
+    }, [searchParams]);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        updateSearchParams("q", query);
+        updateSearchParams("q", e.target.elements.query.value);
     };
 
     return (
         <>
             <form onSubmit={handleSearch}>
                 <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    name="query"
+                    defaultValue={searchParams.get("q") || ""}
                     placeholder="Search for movies..."
                 />
                 <button type="submit">Search</button>

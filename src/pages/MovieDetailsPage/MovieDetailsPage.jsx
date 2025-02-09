@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, Outlet } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useParams, Link, Outlet, useLocation } from "react-router-dom";
 import { fetchMovieDetails } from "../../api";
 import BackButton from "../../components/BackButton/BackButton";
 
 function MovieDetailsPage() {
     const { movieId } = useParams();
+    const location = useLocation();
+    const prevLocationRef = useRef(location);
     const [movie, setMovie] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -43,7 +45,7 @@ function MovieDetailsPage() {
 
     return movie ? (
         <div>
-            <BackButton />
+            <BackButton prevLocation={prevLocationRef.current} />
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
             <h1>{movie.title}</h1>
             <p>Score: {Math.round(movie.vote_average * 10)}%</p>
@@ -54,8 +56,8 @@ function MovieDetailsPage() {
                 ))}
             </ul>
             <div>
-                <Link to="cast" className="button">Check actors</Link>
-                <Link to="reviews" className="button">Check reviews</Link>
+                <Link to="cast" className="button" state={{ prevLocation: location }}>Check actors</Link>
+                <Link to="reviews" className="button" state={{ prevLocation: location }}>Check reviews</Link>
                 <Outlet />
             </div>
         </div>
