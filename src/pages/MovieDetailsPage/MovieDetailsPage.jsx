@@ -6,7 +6,7 @@ import BackButton from "../../components/BackButton/BackButton";
 function MovieDetailsPage() {
     const { movieId } = useParams();
     const location = useLocation();
-    const prevLocationRef = useRef(location);
+    const prevLocationRef = useRef(location?.state?.prevLocation ?? "/movies");
     const [movie, setMovie] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
